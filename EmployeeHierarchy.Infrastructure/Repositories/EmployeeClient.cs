@@ -117,6 +117,27 @@ public class EmployeeClient : IEmployeeClient
         return insertedUser;
     }
 
+    public async Task<Employee> UpdateEmployeeInfoAsync(int employeeId, int? newPositionId, int? newManagerId, int updatedByUserId)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@employee_id", employeeId);
+        parameters.Add("@new_position_id", newPositionId);
+        parameters.Add("@new_manager_id", newManagerId);
+        parameters.Add("@updated_by_user_id", updatedByUserId);
+
+        var updatedEmployee = await this.connection.QuerySingleOrDefaultAsync<Employee>(
+            "sp_update_employee",
+            parameters,
+            commandType: CommandType.StoredProcedure);
+
+        if (updatedEmployee == null)
+        {
+            throw new InvalidOperationException("Employee update failed or not found.");
+        }
+
+        return updatedEmployee;
+    }
+
     private async Task<string> GenerateUniqueUsernameAsync(string firstName, string lastName)
     {
         var lastNameParts = lastName.Split(' ', StringSplitOptions.RemoveEmptyEntries);

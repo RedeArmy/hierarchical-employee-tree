@@ -10,4 +10,6 @@ public interface IEmployeeClient
     Task<Position> InsertPositionAsync(Position position, int createdByUserId);
 
     Task<User> InsertUserAsync(User user, int createdByUserId);
+
+    Task<Employee> UpdateEmployeeInfoAsync(int employeeId, int? newPositionId, int? newManagerId, int updatedByUserId);
 }

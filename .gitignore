@@ -1,0 +1,15 @@
+# Ignorar bin y obj de todos los proyectos (ya cubre los específicos abajo)
+**/bin/
+**/obj/
+
+# Ignorar archivos de depuración en todo el proyecto
+**/*.pdb
+**/*.db
+
+# Ignorar archivos temporales de IDEs
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
