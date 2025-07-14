@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "HNcZ3Y2qu8Y=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\EY16_\\RiderProjects\\hierarchical-employee-tree\\EmployeeHierarchy.Domain\\EmployeeHierarchy.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\EY16_\\.nuget\\packages\\microsoft.codeanalysis.netanalyzers\\9.0.0\\microsoft.codeanalysis.netanalyzers.9.0.0.nupkg.sha512",
+    "C:\\Users\\EY16_\\.nuget\\packages\\sonaranalyzer.csharp\\10.13.0.120203\\sonaranalyzer.csharp.10.13.0.120203.nupkg.sha512",
+    "C:\\Users\\EY16_\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512"
+  ],
+  "logs": []
+}
