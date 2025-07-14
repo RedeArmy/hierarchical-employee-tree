@@ -73,4 +73,22 @@ public class EmployeesController
 
         return this.Ok(result);
     }
+
+    [HttpPost("update-employee")]
+    public async Task<IActionResult> UpdateEmployee([FromBody] UpdateEmployeeRequest request)
+    {
+        if (!this.ModelState.IsValid)
+        {
+            return this.BadRequest(this.ModelState);
+        }
+
+        var updatedByUserId = request.UpdatedByUserId ?? 2;
+        var updatedEmployee = await employeeClient.UpdateEmployeeInfoAsync(
+            request.EmployeeId,
+            request.NewPositionId,
+            request.NewManagerId,
+            updatedByUserId);
+
+        return this.Ok(updatedEmployee);
+    }
 }
