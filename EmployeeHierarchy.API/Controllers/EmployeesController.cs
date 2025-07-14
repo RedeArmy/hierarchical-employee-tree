@@ -52,4 +52,25 @@ public class EmployeesController
 
         return this.Ok(result);
     }
+
+    [HttpPost("create-user")]
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserRequest request)
+    {
+        if (!this.ModelState.IsValid)
+        {
+            return this.BadRequest(this.ModelState);
+        }
+
+        var user = new User
+        {
+            Username = request.Username,
+            Role = request.Role,
+            EmployeeId = request.EmployeeId,
+        };
+
+        var createdByUserId = request.createdByUserId ?? 2;
+        var result = await employeeClient.InsertUserAsync(user, createdByUserId);
+
+        return this.Ok(result);
+    }
 }
