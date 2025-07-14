@@ -1,3 +1,5 @@
+using Microsoft.Data.SqlClient;
+
 namespace EmployeeHierarchy.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +10,7 @@ using Domain;
 [ApiController]
 [Route("api/[controller]")]
 public class EmployeesController
-    (IInsertClient insertClient, IUpdateClient updateClient)
+    (ICreateClient createClient, IUpdateClient updateClient, IDeleteClient deleteClient)
     : ControllerBase
 {
     [HttpPost("create-employee")]
@@ -29,7 +31,7 @@ public class EmployeesController
         };
 
         var createdByUserId = request.createdByUserId ?? 2;
-        var result = await insertClient.InsertEmployeeAsync(employee, createdByUserId);
+        var result = await createClient.InsertEmployeeAsync(employee, createdByUserId);
 
         return this.Ok(result);
     }
@@ -48,7 +50,7 @@ public class EmployeesController
         };
 
         var createdByUserId = request.createdByUserId ?? 2;
-        var result = await insertClient.InsertPositionAsync(position, createdByUserId);
+        var result = await createClient.InsertPositionAsync(position, createdByUserId);
 
         return this.Ok(result);
     }
@@ -69,7 +71,7 @@ public class EmployeesController
         };
 
         var createdByUserId = request.createdByUserId ?? 2;
-        var result = await insertClient.InsertUserAsync(user, createdByUserId);
+        var result = await createClient.InsertUserAsync(user, createdByUserId);
 
         return this.Ok(result);
     }
@@ -110,5 +112,33 @@ public class EmployeesController
             updatedByUserId);
 
         return this.Ok(updatedUser);
+    }
+
+    [HttpDelete("delete-employee")]
+    public async Task<IActionResult> DeleteEmployee([FromBody] DeleteEmployeeRequest request)
+    {
+        if (!this.ModelState.IsValid)
+        {
+            return this.BadRequest(this.ModelState);
+        }
+
+        try
+        {
+            var updatedByUserId = request.DeletedByUserId ?? 2;
+
+            var result = await deleteClient.DeleteEmployeeAndReassignAsync(
+                request.EmployeeId,
+                updatedByUserId);
+
+            return this.Ok(new { success = result });
+        }
+        catch (SqlException ex)
+        {
+            return this.StatusCode(500, new { error = "Database error", details = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return this.StatusCode(500, new { error = "Internal server error", details = ex.Message });
+        }
     }
 }
