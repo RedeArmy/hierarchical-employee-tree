@@ -1,0 +1,12 @@
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\bin\Debug\net8.0\EmployeeHierarchy.Domain.deps.json
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\bin\Debug\net8.0\EmployeeHierarchy.Domain.dll
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\bin\Debug\net8.0\EmployeeHierarchy.Domain.pdb
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\obj\Debug\net8.0\EmployeeHierarchy.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\obj\Debug\net8.0\EmployeeHierarchy.Domain.AssemblyInfoInputs.cache
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\obj\Debug\net8.0\EmployeeHierarchy.Domain.AssemblyInfo.cs
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\obj\Debug\net8.0\EmployeeHierarchy.Domain.csproj.CoreCompileInputs.cache
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\obj\Debug\net8.0\EmployeeHierarchy.Domain.sourcelink.json
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\obj\Debug\net8.0\EmployeeHierarchy.Domain.dll
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\obj\Debug\net8.0\refint\EmployeeHierarchy.Domain.dll
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\obj\Debug\net8.0\EmployeeHierarchy.Domain.pdb
+C:\Users\EY16_\RiderProjects\hierarchical-employee-tree\EmployeeHierarchy.Domain\obj\Debug\net8.0\ref\EmployeeHierarchy.Domain.dll

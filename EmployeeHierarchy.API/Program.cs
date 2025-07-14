@@ -1,5 +1,7 @@
 using System.Data;
+using EmployeeHierarchy.Domain;
 using EmployeeHierarchy.Infrastructure.Database;
+using EmployeeHierarchy.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Registrar configuración de Dapper y conexión a SQL
+builder.Services.AddScoped<IEmployeeClient, EmployeeClient>();
 builder.Services.AddSingleton<DbConnectionFactory>();
 builder.Services.AddScoped<IDbConnection>(sp =>
     sp.GetRequiredService<DbConnectionFactory>().CreateConnection());
