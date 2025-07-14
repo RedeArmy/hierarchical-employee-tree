@@ -11,18 +11,14 @@ This project is a web application built with **ASP.NET Core MVC** that allows yo
 ---
 
 ## 📂 Project Structure
+
+```text
 EmployeeHierarchy/
-
 ├── EmployeeHierarchy.API # ASP.NET Core MVC frontend
-
 ├── EmployeeHierarchy.Application 
-
 ├── EmployeeHierarchy.Domain # Domain models and interfaces
-
 ├── EmployeeHierarchy.Infrastructure # Database access and Application services (Create, Read, Update, Delete)
-
-├── EmployeeHierarchy.sln # Solution file
-
+```
 ---
 
 ## 🚀 Getting Started
