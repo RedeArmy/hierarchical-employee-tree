@@ -11,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICreateClient, CreateClient>();
 builder.Services.AddScoped<IUpdateClient, UpdateClient>();
 builder.Services.AddScoped<IDeleteClient, DeleteClient>();
+builder.Services.AddScoped<IReadClient, ReadClient>();
 builder.Services.AddSingleton<DbConnectionFactory>();
 builder.Services.AddScoped<IDbConnection>(sp =>
     sp.GetRequiredService<DbConnectionFactory>().CreateConnection());
