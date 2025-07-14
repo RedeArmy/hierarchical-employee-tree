@@ -1,0 +1,22 @@
+@model List<EmployeeHierarchy.Domain.Models.ViewModels.EmployeeViewModel>?
+
+@{
+    ViewBag.Title = "Employee Hierarchy";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No employees found.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var emp in Model)
+        {
+            @await Html.PartialAsync("_EmployeeNode", emp)
+        }
+    </ul>
+}

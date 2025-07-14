@@ -1,0 +1,19 @@
+@model EmployeeHierarchy.Domain.Models.ViewModels.EmployeeViewModel
+
+@{
+    var indent = Model.HierarchyLevel * 20;
+}
+
+<li class="list-group-item" style="margin-left:@(indent)px;">
+    <strong>@Model.FullName</strong> — <em>@Model.PositionName</em>
+
+    @if (Model.Subordinates != null && Model.Subordinates.Any())
+    {
+        <ul class="list-group mt-2">
+            @foreach (var sub in Model.Subordinates)
+            {
+                @await Html.PartialAsync("_EmployeeNode", sub)
+            }
+        </ul>
+    }
+</li>
