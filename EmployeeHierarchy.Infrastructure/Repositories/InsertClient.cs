@@ -1,24 +1,18 @@
 namespace EmployeeHierarchy.Infrastructure.Repositories;
 
 using System.Data;
-using BCrypt.Net;
 using Dapper;
 using Domain;
+using Utils;
 using Domain.Entities;
 
-
-public class EmployeeClient : IEmployeeClient
+public class InsertClient : IInsertClient
 {
     private readonly IDbConnection connection;
 
-    public EmployeeClient(IDbConnection connection)
+    public InsertClient(IDbConnection connection)
     {
         this.connection = connection;
-    }
-
-    private static string HashPassword(string password)
-    {
-        return BCrypt.HashPassword(password);
     }
 
     public async Task<Employee> InsertEmployeeAsync(Employee employee, int createdByUserId)
@@ -37,7 +31,7 @@ public class EmployeeClient : IEmployeeClient
 
             parameters.Add("@create_user", 1);
             parameters.Add("@username", username);
-            parameters.Add("@password", HashPassword(defaultPassword));
+            parameters.Add("@password", HashPasswordHelper.HashPassword(defaultPassword));
         }
 
         var insertedEmployee = await this.connection.QuerySingleOrDefaultAsync<Employee>(
@@ -99,7 +93,7 @@ public class EmployeeClient : IEmployeeClient
 
         var parameters = new DynamicParameters();
         parameters.Add("@username", userName);
-        parameters.Add("@password", HashPassword(defaultPassword));
+        parameters.Add("@password", HashPasswordHelper.HashPassword(defaultPassword));
         parameters.Add("@role", user.Role ?? "EMPLOYEE");
         parameters.Add("@employee_id", user.EmployeeId, DbType.Int32);
         parameters.Add("@created_by_user_id", createdByUserId);
@@ -115,27 +109,6 @@ public class EmployeeClient : IEmployeeClient
         }
 
         return insertedUser;
-    }
-
-    public async Task<Employee> UpdateEmployeeInfoAsync(int employeeId, int? newPositionId, int? newManagerId, int updatedByUserId)
-    {
-        var parameters = new DynamicParameters();
-        parameters.Add("@employee_id", employeeId);
-        parameters.Add("@new_position_id", newPositionId);
-        parameters.Add("@new_manager_id", newManagerId);
-        parameters.Add("@updated_by_user_id", updatedByUserId);
-
-        var updatedEmployee = await this.connection.QuerySingleOrDefaultAsync<Employee>(
-            "sp_update_employee",
-            parameters,
-            commandType: CommandType.StoredProcedure);
-
-        if (updatedEmployee == null)
-        {
-            throw new InvalidOperationException("Employee update failed or not found.");
-        }
-
-        return updatedEmployee;
     }
 
     private async Task<string> GenerateUniqueUsernameAsync(string firstName, string lastName)

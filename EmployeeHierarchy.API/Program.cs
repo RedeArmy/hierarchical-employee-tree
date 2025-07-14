@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 // Registrar configuración de Dapper y conexión a SQL
-builder.Services.AddScoped<IEmployeeClient, EmployeeClient>();
+builder.Services.AddScoped<IInsertClient, InsertClient>();
+builder.Services.AddScoped<IUpdateClient, UpdateClient>();
 builder.Services.AddSingleton<DbConnectionFactory>();
 builder.Services.AddScoped<IDbConnection>(sp =>
     sp.GetRequiredService<DbConnectionFactory>().CreateConnection());
