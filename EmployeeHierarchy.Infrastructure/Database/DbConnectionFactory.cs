@@ -10,12 +10,19 @@ public class DbConnectionFactory
 
     public DbConnectionFactory(IConfiguration configuration)
     {
-        configuration = configuration;
+        this.configuration = configuration;
     }
 
     public IDbConnection CreateConnection()
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        return new SqlConnection(connectionString);
+        var connectionString = this.configuration.GetConnectionString("DefaultConnection");
+        Console.WriteLine($"Connection string: {connectionString}");
+        if (string.IsNullOrEmpty(connectionString))
+        {
+            throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+        }
+
+        var connection = new SqlConnection(connectionString);
+        return connection;
     }
 }
