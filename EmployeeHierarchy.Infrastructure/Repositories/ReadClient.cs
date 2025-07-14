@@ -1,3 +1,5 @@
+using EmployeeHierarchy.Domain.Entities;
+
 namespace EmployeeHierarchy.Infrastructure.Repositories;
 
 using Domain.Models.Response;
@@ -21,5 +23,18 @@ public class ReadClient : IReadClient
             commandType: CommandType.StoredProcedure);
 
         return result;
+    }
+
+    public async Task<User?> ValidateUserAsync(string username, string password)
+    {
+        var user = await this.connection.QueryFirstOrDefaultAsync<User>(
+            $"SELECT * FROM [user] WHERE username = @username", new { username });
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        return !BCrypt.Net.BCrypt.Verify(password, user.Password) ? null : user;
     }
 }
