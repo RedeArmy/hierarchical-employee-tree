@@ -47,7 +47,7 @@ Restore packages:
  dotnet restore
 ```
 
-⚙️ Configuration
+## ⚙️ Configuration
 ### 3. Update your database connection
    Edit EmployeeHierarchy.API/appsettings.json:
 
@@ -59,20 +59,20 @@ Restore packages:
 
 🔁 Replace localhost with your SQL Server name if different.
 
-🛠 Database Setup
-1. Run the script Script.sql located in:
+## 🛠 Database Setup
+### 1. Run the script Script.sql located in:
 
 ```bash
 EmployeeHierarchy.Infrastructure/Database/Script.sql
 ```
 
-2. This script will:
+### 2. This script will:
 
 * Create all necessary tables
 * Insert default data (employees, users, positions)
 * Create stored procedures
 
-🔐 Login Access
+## 🔐 Login Access
 Example credentials (from seed data):
 
 + Username: admin
@@ -80,7 +80,7 @@ Example credentials (from seed data):
 
 Passwords are hashed with BCrypt in the database.
 
-🖥️ Run the Application
+## 🖥️ Run the Application
 ```bash
 dotnet run --project EmployeeHierarchy.API
 ```
@@ -92,13 +92,13 @@ or
 http://localhost:5091/swagger/index.html
 ```
 
-🗃 Database Diagram
+## 🗃 Database Diagram
 
 ![DB Schema](docs/model_tree.png)
 
-🤝 Contributing
+## 🤝 Contributing
 Pull requests are welcome. For major changes, open an issue first to discuss what you'd like to change.
 
-📝 License
+## 📝 License
 This project is licensed under the MIT License.
 
