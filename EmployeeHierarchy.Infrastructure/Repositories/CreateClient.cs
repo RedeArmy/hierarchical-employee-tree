@@ -6,11 +6,11 @@ using Domain;
 using Utils;
 using Domain.Entities;
 
-public class InsertClient : IInsertClient
+public class CreateClient : ICreateClient
 {
     private readonly IDbConnection connection;
 
-    public InsertClient(IDbConnection connection)
+    public CreateClient(IDbConnection connection)
     {
         this.connection = connection;
     }

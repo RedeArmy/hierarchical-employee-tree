@@ -15,6 +15,4 @@ namespace EmployeeHierarchy.Domain.Entities;
         public bool CreateUser { get; set; } = false;
 
         public string? Username { get; set; }
-
-        public DateTime CreateTime { get; set; }
     }

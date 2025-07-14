@@ -3,7 +3,7 @@ namespace EmployeeHierarchy.Domain;
 using Entities;
 using System.Threading.Tasks;
 
-public interface IInsertClient
+public interface ICreateClient
 {
     Task<Employee> InsertEmployeeAsync(Employee employee, int createdByUserId);
 
