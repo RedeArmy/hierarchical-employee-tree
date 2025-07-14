@@ -2,7 +2,7 @@ namespace EmployeeHierarchy.API.Controllers;
 
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using EmployeeHierarchy.API.Models;
+using Models;
 
 public class HomeController : Controller
 {

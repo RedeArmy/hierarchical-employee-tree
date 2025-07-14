@@ -48,6 +48,25 @@ public class EmployeeClient : IEmployeeClient
         return insertedEmployee;
     }
 
+    public async Task<Position> InsertPositionAsync(Position position, int createdByUserId)
+    {
+        var parameters = new DynamicParameters();
+        parameters.Add("@position_name", position.PositionName.ToUpper());
+        parameters.Add("@created_by_user_id", createdByUserId);
+
+        var insertedPosition = await this.connection.QuerySingleOrDefaultAsync<Position>(
+            "sp_insert_position",
+            parameters,
+            commandType: CommandType.StoredProcedure);
+
+        if (insertedPosition == null)
+        {
+            throw new InvalidOperationException("No position returned from insert stored procedure.");
+        }
+
+        return insertedPosition;
+    }
+
     private async Task<string> GenerateUniqueUsernameAsync(string firstName, string lastName)
     {
         var lastNameParts = lastName.Split(' ', StringSplitOptions.RemoveEmptyEntries);
