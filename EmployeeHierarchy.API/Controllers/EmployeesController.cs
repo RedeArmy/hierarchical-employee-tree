@@ -8,7 +8,7 @@ using Domain;
 [ApiController]
 [Route("api/[controller]")]
 public class EmployeesController
-    (IEmployeeClient employeeClient)
+    (IInsertClient insertClient, IUpdateClient updateClient)
     : ControllerBase
 {
     [HttpPost("create-employee")]
@@ -29,7 +29,7 @@ public class EmployeesController
         };
 
         var createdByUserId = request.createdByUserId ?? 2;
-        var result = await employeeClient.InsertEmployeeAsync(employee, createdByUserId);
+        var result = await insertClient.InsertEmployeeAsync(employee, createdByUserId);
 
         return this.Ok(result);
     }
@@ -48,7 +48,7 @@ public class EmployeesController
         };
 
         var createdByUserId = request.createdByUserId ?? 2;
-        var result = await employeeClient.InsertPositionAsync(position, createdByUserId);
+        var result = await insertClient.InsertPositionAsync(position, createdByUserId);
 
         return this.Ok(result);
     }
@@ -69,7 +69,7 @@ public class EmployeesController
         };
 
         var createdByUserId = request.createdByUserId ?? 2;
-        var result = await employeeClient.InsertUserAsync(user, createdByUserId);
+        var result = await insertClient.InsertUserAsync(user, createdByUserId);
 
         return this.Ok(result);
     }
@@ -83,12 +83,32 @@ public class EmployeesController
         }
 
         var updatedByUserId = request.UpdatedByUserId ?? 2;
-        var updatedEmployee = await employeeClient.UpdateEmployeeInfoAsync(
+        var updatedEmployee = await updateClient.UpdateEmployeeInfoAsync(
             request.EmployeeId,
             request.NewPositionId,
             request.NewManagerId,
             updatedByUserId);
 
         return this.Ok(updatedEmployee);
+    }
+
+    [HttpPost("update-user")]
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRequest request)
+    {
+        if (!this.ModelState.IsValid)
+        {
+            return this.BadRequest(this.ModelState);
+        }
+
+        var updatedByUserId = request.UpdatedByUserId ?? 2;
+
+        var updatedUser = await updateClient.UpdateUserInfoAsync(
+            request.UserId,
+            request.NewPassword,
+            request.NewRole,
+            request.IsActive,
+            updatedByUserId);
+
+        return this.Ok(updatedUser);
     }
 }
