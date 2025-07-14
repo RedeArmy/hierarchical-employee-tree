@@ -35,6 +35,7 @@ public class ReadClient : IReadClient
             return null;
         }
 
-        return !BCrypt.Net.BCrypt.Verify(password, user.Password) ? null : user;
+        var verified = BCrypt.Net.BCrypt.Verify(password, user.Password);
+        return verified ? user : null;
     }
 }
