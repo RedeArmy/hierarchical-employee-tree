@@ -1,19 +1,31 @@
 @model EmployeeHierarchy.Domain.Models.ViewModels.EmployeeViewModel
 
-@{
-    var indent = Model.HierarchyLevel * 20;
-}
+<div class="tree-node" style="margin-left:@(Model.HierarchyLevel * 40)px">
+    <div class="node-content">
+        <div class="circle-node">
+            <span class="initials">
+                @{
+                    var initials = string.Join("", Model.PositionName
+                            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                            .Select(w => w[0]))
+                        .ToUpper();
+                }
+                @initials
+            </span>
+        </div>
+        <div class="node-label">
+            <strong>@Model.FullName</strong><br />
+            <small>@Model.PositionName</small>
+        </div>
+    </div>
 
-<li class="list-group-item" style="margin-left:@(indent)px;">
-    <strong>@Model.FullName</strong> — <em>@Model.PositionName</em>
-
-    @if (Model.Subordinates != null && Model.Subordinates.Any())
+    @if (Model.Subordinates?.Any() == true)
     {
-        <ul class="list-group mt-2">
+        <div class="tree-children">
             @foreach (var sub in Model.Subordinates)
             {
                 @await Html.PartialAsync("_EmployeeNode", sub)
             }
-        </ul>
+        </div>
     }
-</li>
+</div>

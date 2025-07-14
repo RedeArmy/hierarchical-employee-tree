@@ -1,11 +1,11 @@
-@model List<EmployeeHierarchy.Domain.Models.ViewModels.EmployeeViewModel>?
+@model List<EmployeeHierarchy.Domain.Models.ViewModels.EmployeeViewModel>
 
 @{
     ViewBag.Title = "Employee Hierarchy";
     Layout = "_Layout";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2 class="mb-4">@ViewBag.Title</h2>
 
 @if (Model == null || !Model.Any())
 {
@@ -13,10 +13,10 @@
 }
 else
 {
-    <ul class="list-group">
+    <div class="employee-tree">
         @foreach (var emp in Model)
         {
             @await Html.PartialAsync("_EmployeeNode", emp)
         }
-    </ul>
+    </div>
 }
