@@ -1,4 +1,4 @@
- name: CI - Build, Test and SonarCloud Analysis
+name: CI - Build, Test and SonarCloud Analysis
 
 on:
   pull_request:
