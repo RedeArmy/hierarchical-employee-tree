@@ -148,4 +148,17 @@ public class EmployeesController
         var hierarchy = await readClient.GetEmployeeHierarchyAsync();
         return this.Ok(hierarchy);
     }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        var user = await readClient.ValidateUserAsync(request.Username, request.Password);
+
+        if (user == null)
+        {
+            return this.Unauthorized(new { message = "Invalid username or password" });
+        }
+
+        return this.Ok();
+    }
 }

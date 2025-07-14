@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace EmployeeHierarchy.API.Controllers;
 
 using System.Diagnostics;
@@ -24,7 +26,42 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return this.RedirectToAction("Hierarchy");
+        return this.RedirectToAction("Login");
+    }
+
+    public IActionResult Logout()
+    {
+        this.HttpContext.Session.Clear();
+        return this.RedirectToAction("Login");
+    }
+
+    [HttpGet]
+    public IActionResult Login()
+    {
+        return this.View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        if (!this.ModelState.IsValid)
+        {
+            return this.View(model);
+        }
+
+        var client = this.httpClientFactory.CreateClient();
+        var content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
+
+        var response = await client.PostAsync($"http://localhost:5091/api/Employees/login", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            this.HttpContext.Session.SetString("Username", model.Username);
+            return this.RedirectToAction("Hierarchy");
+        }
+
+        this.ModelState.AddModelError(string.Empty, "Invalid username or password.");
+        return this.View(model);
     }
 
     public async Task<IActionResult> Hierarchy()
