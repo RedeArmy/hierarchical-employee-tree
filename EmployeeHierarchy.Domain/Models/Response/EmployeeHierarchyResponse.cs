@@ -11,6 +11,6 @@ public class EmployeeHierarchyResponse
     public string PositionName { get; set; }
 
     public int? ManagerId { get; set; }
-    
+
     public int? HierarchyLevel { get; set; }
 }
