@@ -51,6 +51,12 @@ Restore packages:
  "ConnectionStrings": {
   "DefaultConnection": "Server=localhost;Database=EmployeeHierarchyDB;Trusted_Connection=True;TrustServerCertificate=True;"
 }
+
+or 
+
+"ConnectionStrings": {
+  "DefaultConnection": "Server=localhost;Database=EmployeeHierarchyDB;User Id=sa;Password=MyStrongP@ssw0rd;TrustServerCertificate=True;"
+}
 ```
 
 🔁 Replace localhost with your SQL Server name if different.
