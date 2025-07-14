@@ -10,7 +10,7 @@ using Domain;
 [ApiController]
 [Route("api/[controller]")]
 public class EmployeesController
-    (ICreateClient createClient, IUpdateClient updateClient, IDeleteClient deleteClient)
+    (ICreateClient createClient, IUpdateClient updateClient, IDeleteClient deleteClient, IReadClient readClient)
     : ControllerBase
 {
     [HttpPost("create-employee")]
@@ -140,5 +140,12 @@ public class EmployeesController
         {
             return this.StatusCode(500, new { error = "Internal server error", details = ex.Message });
         }
+    }
+
+    [HttpGet("get_hierarchy")]
+    public async Task<IActionResult> GetHierarchyTree()
+    {
+        var hierarchy = await readClient.GetEmployeeHierarchyAsync();
+        return this.Ok(hierarchy);
     }
 }

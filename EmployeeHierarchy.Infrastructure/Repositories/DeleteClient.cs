@@ -3,8 +3,6 @@ namespace EmployeeHierarchy.Infrastructure.Repositories;
 using System.Data;
 using Dapper;
 using Domain;
-using Utils;
-using Domain.Entities;
 
 public class DeleteClient: IDeleteClient
 {

@@ -1,6 +1,5 @@
 namespace EmployeeHierarchy.Domain;
 
-using Entities;
 using System.Threading.Tasks;
 
 public interface IDeleteClient
