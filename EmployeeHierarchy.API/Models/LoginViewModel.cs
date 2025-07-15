@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EmployeeHierarchy.Domain.Models.ViewModels;
+namespace EmployeeHierarchy.API.Models;
 
 public class LoginViewModel
 {

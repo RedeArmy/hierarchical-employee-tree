@@ -1,4 +1,5 @@
 using System.Text;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EmployeeHierarchy.API.Controllers;
 
@@ -8,8 +9,6 @@ using Models;
 using Domain;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using EmployeeHierarchy.Domain.Models.ViewModels;
-
 
 public class HomeController : Controller
 {
@@ -29,10 +28,38 @@ public class HomeController : Controller
         return this.RedirectToAction("Login");
     }
 
+    public IActionResult Home()
+    {
+        return this.View("Index");
+    }
+
     public IActionResult Logout()
     {
         this.HttpContext.Session.Clear();
         return this.RedirectToAction("Login");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Upload()
+    {
+        var positions = await this.readClient.GetPositionsAsync();
+        var managers = await this.readClient.GetManagersAsync();
+
+        var model = new CreateEmployeeViewModel
+        {
+            Positions = positions.Select(p => new SelectListItem
+            {
+                Value = p.Position_Id.ToString(),
+                Text = p.Position_Name,
+            }),
+            Managers = managers.Select(m => new SelectListItem
+            {
+                Value = m.Employee_Id.ToString(),
+                Text = $"{m.FirstName} {m.LastName}",
+            }),
+        };
+
+        return this.View(model);
     }
 
     [HttpGet]
@@ -57,7 +84,7 @@ public class HomeController : Controller
         if (response.IsSuccessStatusCode)
         {
             this.HttpContext.Session.SetString("Username", model.Username);
-            return this.RedirectToAction("Hierarchy");
+            return this.RedirectToAction("Home");
         }
 
         this.ModelState.AddModelError(string.Empty, "Invalid username or password.");
@@ -80,7 +107,31 @@ public class HomeController : Controller
             PropertyNameCaseInsensitive = true,
         });
 
+        if (hierarchy == null || !hierarchy.Any())
+        {
+            return this.RedirectToAction("Upload");
+        }
+
+
         return this.View(hierarchy);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Upload(IFormFile? csvFile)
+    {
+        if (csvFile == null || csvFile.Length == 0)
+        {
+            this.ModelState.AddModelError("", "Please select a CSV file.");
+            return this.View();
+        }
+
+        using var reader = new StreamReader(csvFile.OpenReadStream());
+        var content = await reader.ReadToEndAsync();
+
+        // Aquí puedes hacer parsing del CSV y enviar los datos a tu API para insertar en DB
+
+        // Por simplicidad, redirigimos a la jerarquía después de subir
+        return this.RedirectToAction("Hierarchy");
     }
 
     public IActionResult Privacy() => this.View();

@@ -1,8 +1,31 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5 text-center">
+    <!-- Imagen centrada -->
+    <img src="~/images/profile.png"
+         class="rounded-circle img-fluid shadow mb-4"
+         alt="Your Photo"
+         style="max-width: 200px;" />
+
+    <!-- Nombre -->
+    <h1 class="display-5 fw-bold">Eder Garcia</h1>
+
+    <!-- Descripción -->
+    <p class="lead text-muted">
+        Full-Stack Developer with 4+ years of experience in .NET, C#, and modern frontend tools.
+    </p>
+
+    <p>
+        I specialize in building scalable and maintainable software solutions, with experience in system architecture,
+        DevOps, and APIs. Always looking to improve and take on challenging projects.
+    </p>
+
+    <!-- Botones de contacto -->
+    <div class="mt-4">
+        <a class="btn btn-primary me-2" href="mailto:ey16_619@hotmail.com">Contact Me</a>
+        <a class="btn btn-outline-dark me-2" href="https://github.com/RedeArmy" target="_blank">GitHub</a>
+        <a class="btn btn-outline-info" href="https://www.linkedin.com/in/eder-garcia-q" target="_blank">LinkedIn</a>
+    </div>
 </div>

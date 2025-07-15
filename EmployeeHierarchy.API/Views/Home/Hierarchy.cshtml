@@ -1,15 +1,20 @@
-@model List<EmployeeHierarchy.Domain.Models.ViewModels.EmployeeViewModel>
+@model List<EmployeeViewModel>
 
 @{
     ViewBag.Title = "Employee Hierarchy";
     Layout = "_Layout";
 }
 
-<h2 class="mb-4">@ViewBag.Title</h2>
+<h2 class="mb-4 text-center">@ViewBag.Title</h2>
 
 @if (Model == null || !Model.Any())
 {
-    <p>No employees found.</p>
+    <div class="d-flex justify-content-center align-items-center" style="height: 60vh;">
+        <div class="text-center">
+            <p class="fs-4 text-muted">No employees found.</p>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Upload">Create Employee or Upload CSV</a>
+        </div>
+    </div>
 }
 else
 {

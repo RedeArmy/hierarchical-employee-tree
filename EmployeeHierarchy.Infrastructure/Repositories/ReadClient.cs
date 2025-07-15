@@ -38,4 +38,18 @@ public class ReadClient : IReadClient
         var verified = BCrypt.Net.BCrypt.Verify(password, user.Password);
         return verified ? user : null;
     }
+
+    public async Task<IEnumerable<Position>> GetPositionsAsync()
+    {
+        const string sql = $"SELECT * FROM position ORDER BY position_id ASC";
+        return await this.connection.QueryAsync<Position>(sql);
+    }
+
+    public async Task<IEnumerable<Employee>> GetManagersAsync()
+    {
+        const string sql =
+            $@"SELECT employee_id, employee_first_name, employee_last_name FROM employee WHERE employee_id IN (SELECT DISTINCT manager_employee_id FROM employee WHERE manager_employee_id IS NOT NULL)";
+
+        return await this.connection.QueryAsync<Employee>(sql);
+    }
 }

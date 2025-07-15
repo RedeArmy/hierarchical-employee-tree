@@ -1,0 +1,61 @@
+@model EmployeeHierarchy.API.Models.CreateEmployeeViewModel
+
+@{
+    ViewData["Title"] = "Add Employee / Upload CSV";
+    Layout = "_Layout";
+}
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="text-center mb-4">Add New Employee</h2>
+    <form asp-action="CreateEmployee" asp-controller="Home" method="post" class="mb-5">
+        <div class="mb-3">
+            <label asp-for="FirstName" class="form-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PositionId" class="form-label"></label>
+            <select asp-for="PositionId" asp-items="Model.Positions" class="form-select">
+                <option value="">-- Select Position --</option>
+            </select>
+            <span asp-validation-for="PositionId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ManagerEmployeeId" class="form-label"></label>
+            <select asp-for="ManagerEmployeeId" asp-items="Model.Managers" class="form-select">
+                <option value="">-- Select Manager (optional) --</option>
+            </select>
+            <span asp-validation-for="ManagerEmployeeId" class="text-danger"></span>
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success px-4">Create Employee</button>
+        </div>
+    </form>
+
+    <hr />
+
+    <h2 class="text-center mb-4">Upload CSV to Populate Employee Data</h2>
+    <form asp-action="UploadCsv" asp-controller="Home" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="csvFile" class="form-label">Choose CSV File</label>
+            <input type="file" name="csvFile" id="csvFile" class="form-control" accept=".csv" required />
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary px-4">Upload</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
