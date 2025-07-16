@@ -1,4 +1,23 @@
--- TABLES
+USE [master]
+GO
+
+CREATE DATABASE [EmployeeTreeDB]
+ CONTAINMENT = NONE
+GO
+       
+USE [EmployeeTreeDB]
+GO
+       
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [EmployeeTreeDB].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+
+-- =====================================
+-- Create tables
+-- =====================================
+
 -- Table for Positions
 CREATE TABLE position (
       position_id INT PRIMARY KEY IDENTITY(1,1),
@@ -69,7 +88,10 @@ CREATE TABLE [audit] (
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
--- SP
+-- =====================================
+-- Create SP 
+-- =====================================
+
 -- INSERT SP
 CREATE PROCEDURE sp_insert_employee
     @first_name NVARCHAR(50),
