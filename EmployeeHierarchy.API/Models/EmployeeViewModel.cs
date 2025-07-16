@@ -1,4 +1,4 @@
-namespace EmployeeHierarchy.Domain.Models.ViewModels;
+namespace EmployeeHierarchy.API.Models;
 
 public class EmployeeViewModel
 {

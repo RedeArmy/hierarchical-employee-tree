@@ -1,11 +1,11 @@
-using Microsoft.Data.SqlClient;
-
 namespace EmployeeHierarchy.API.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using Domain.Entities;
 using Domain.Models.Request;
 using Domain;
+using Microsoft.Data.SqlClient;
+using System.Text.Json;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -19,6 +19,12 @@ public class EmployeesController
         if (!this.ModelState.IsValid)
         {
             return this.BadRequest(this.ModelState);
+        }
+
+        var exists = await readClient.EmployeeExistsAsync(request.FirstName, request.LastName);
+        if (exists)
+        {
+            return this.Conflict(new { message = "An employee with this full name already exists." });
         }
 
         var employee = new Employee
@@ -149,11 +155,26 @@ public class EmployeesController
         return this.Ok(hierarchy);
     }
 
+    [HttpGet("get_managers_position")]
+    public async Task<IActionResult> GetManagersByPosition(int positionId)
+    {
+        var managers = await readClient.GetEmployeesByPositionAsync(positionId);
+        var result = managers.Select(m => new
+        {
+            employeeId = m.EmployeeId,
+            firstName = m.FirstName,
+            lastName = m.LastName,
+        });
+
+        return new JsonResult(result);
+    }
+
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
         var user = await readClient.ValidateUserAsync(request.Username, request.Password);
 
+        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         if (user == null)
         {
             return this.Unauthorized(new { message = "Invalid username or password" });

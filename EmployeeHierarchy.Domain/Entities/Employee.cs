@@ -2,6 +2,8 @@ namespace EmployeeHierarchy.Domain.Entities;
 
  public class Employee
     {
+        public object Employee_Id;
+
         public int EmployeeId { get; set; }
 
         public string FirstName { get; set; }

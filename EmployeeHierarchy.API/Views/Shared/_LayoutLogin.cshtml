@@ -6,13 +6,16 @@
     <title>@ViewData["Title"] - Employee Hierarchy</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <style>
+        html, body {
+            height: 100%;
+        }
+    </style>
 </head>
-<body>
-<div class="container">
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
+<body class="d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+<main class="w-100">
+    @RenderBody()
+</main>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
