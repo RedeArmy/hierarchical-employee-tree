@@ -1,9 +1,8 @@
-using EmployeeHierarchy.Domain.Entities;
-
 namespace EmployeeHierarchy.API.Models;
 
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Domain.Entities;
 
 public class CreateEmployeeViewModel
 {
@@ -20,7 +19,11 @@ public class CreateEmployeeViewModel
     [Display(Name = "Manager")]
     public int? ManagerEmployeeId { get; set; }
 
+    public bool CreateUser { get; set; }
+
     public IEnumerable<SelectListItem> Positions { get; set; } = new List<SelectListItem>();
 
     public IEnumerable<SelectListItem> Managers { get; set; } = new List<SelectListItem>();
+
+    public IEnumerable<SelectListItem> PositionsManger { get; set; } = new List<SelectListItem>();
 }

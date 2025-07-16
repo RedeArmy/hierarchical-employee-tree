@@ -14,4 +14,8 @@ public interface IReadClient
     Task<IEnumerable<Position>> GetPositionsAsync();
 
     Task<IEnumerable<Employee>> GetManagersAsync();
+
+    Task<IEnumerable<Employee>> GetEmployeesByPositionAsync(int positionId);
+
+    Task<bool> EmployeeExistsAsync(string firstName, string lastName);
 }

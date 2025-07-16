@@ -1,13 +1,14 @@
-using System.Text;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using EmployeeHierarchy.Domain.Entities;
 
 namespace EmployeeHierarchy.API.Controllers;
 
+using System.Text;
+using Filters;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Domain;
-using System.Net.Http.Headers;
 using System.Text.Json;
 
 public class HomeController : Controller
@@ -15,19 +16,25 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> logger;
     private readonly IHttpClientFactory httpClientFactory;
     private readonly IReadClient readClient;
+    private readonly HttpClient client;
+    private readonly string? baseUrl;
 
-    public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory, IReadClient readClient)
+    public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration, IReadClient readClient)
     {
         this.logger = logger;
         this.httpClientFactory = httpClientFactory;
         this.readClient = readClient;
+        this.client = httpClientFactory.CreateClient("ApiClient");
+        this.baseUrl = configuration["ApiSettings:BaseUrl"];
     }
 
+    [SessionAuth]
     public IActionResult Index()
     {
         return this.RedirectToAction("Login");
     }
 
+    [SessionAuth]
     public IActionResult Home()
     {
         return this.View("Index");
@@ -39,15 +46,21 @@ public class HomeController : Controller
         return this.RedirectToAction("Login");
     }
 
+    [SessionAuth]
+    public IActionResult Privacy() => this.View();
+
+    [SessionAuth]
     [HttpGet]
     public async Task<IActionResult> Upload()
     {
         var positions = await this.readClient.GetPositionsAsync();
         var managers = await this.readClient.GetManagersAsync();
 
+        var enumerable = positions as Position[] ?? positions.ToArray();
+
         var model = new CreateEmployeeViewModel
         {
-            Positions = positions.Select(p => new SelectListItem
+            Positions = enumerable.Select(p => new SelectListItem
             {
                 Value = p.Position_Id.ToString(),
                 Text = p.Position_Name,
@@ -56,6 +69,11 @@ public class HomeController : Controller
             {
                 Value = m.Employee_Id.ToString(),
                 Text = $"{m.FirstName} {m.LastName}",
+            }),
+            PositionsManger = enumerable.Select(p => new SelectListItem
+            {
+                Value = p.Position_Id.ToString(),
+                Text = p.Position_Name,
             }),
         };
 
@@ -76,10 +94,9 @@ public class HomeController : Controller
             return this.View(model);
         }
 
-        var client = this.httpClientFactory.CreateClient();
         var content = new StringContent(JsonSerializer.Serialize(model), Encoding.UTF8, "application/json");
 
-        var response = await client.PostAsync($"http://localhost:5091/api/Employees/login", content);
+        var response = await this.client.PostAsync($"{this.baseUrl}/api/Employees/login", content);
 
         if (response.IsSuccessStatusCode)
         {
@@ -93,9 +110,7 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Hierarchy()
     {
-        var client = this.httpClientFactory.CreateClient();
-
-        var response = await client.GetAsync($"http://localhost:5091/api/Employees/get_hierarchy");
+        var response = await this.client.GetAsync($"{this.baseUrl}/api/Employees/get_hierarchy");
         if (!response.IsSuccessStatusCode)
         {
             return this.View("Error");
@@ -116,12 +131,13 @@ public class HomeController : Controller
         return this.View(hierarchy);
     }
 
+    [SessionAuth]
     [HttpPost]
     public async Task<IActionResult> Upload(IFormFile? csvFile)
     {
         if (csvFile == null || csvFile.Length == 0)
         {
-            this.ModelState.AddModelError("", "Please select a CSV file.");
+            this.ModelState.AddModelError(string.Empty, "Please select a CSV file.");
             return this.View();
         }
 
@@ -133,8 +149,6 @@ public class HomeController : Controller
         // Por simplicidad, redirigimos a la jerarquía después de subir
         return this.RedirectToAction("Hierarchy");
     }
-
-    public IActionResult Privacy() => this.View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

@@ -30,9 +30,20 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
-                    </li>
+                    @if (Context.Session.GetString("Username") != null)
+                    {
+                        <li class="nav-item">
+                            <form method="post" asp-controller="Home" asp-action="Logout" class="d-inline">
+                                <button type="submit" class="btn btn-link nav-link" style="padding: 0;">Logout (@Context.Session.GetString("Username"))</button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
