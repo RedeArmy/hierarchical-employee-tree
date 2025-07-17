@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore
 
       - name: Begin SonarCloud analysis
-        run: dotnet sonarscanner begin /k:"RedeArmy_hierarchical-employee-tree" /o:"RedeArmy" /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+        run: dotnet sonarscanner begin /k:"RedeArmy_hierarchical-employee-tree" /o:"redearmy" /d:sonar.login=${{ secrets.SONAR_TOKEN }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
